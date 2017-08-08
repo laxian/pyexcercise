@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tvTagRadius">8.0dp</dimen>
+    <dimen name="margin_start_end">8.0dp</dimen>
+    <dimen name="margin_top">5.0dp</dimen>
+    <dimen name="margin_top_26">13.0dp</dimen>
+    <dimen name="plesson_item_space">10.0dp</dimen>
+
+    <dimen name="drawable_padding_18">9.0dp</dimen>
+
+    <dimen name="title_text_size">9.0dp</dimen>
+    <dimen name="page_left_padding">10.0dp</dimen>
+    <dimen name="page_right_padding">10.0dp</dimen>
+    <dimen name="page_left_margin">10.0dp</dimen>
+    <dimen name="page_right_margin">10.0dp</dimen>
+    <dimen name="page_top_padding">15.0dp</dimen>
+    <dimen name="page_top_margin">15.0dp</dimen>
+    <dimen name="loading_logo_width">370.0dp</dimen>
+    <dimen name="loading_logo_height">235.0dp</dimen>
+    <dimen name="loading_version_margin_bottom">30.0dp</dimen>
+    <dimen name="loading_version_width">25.0dp</dimen>
+
+    <dimen name="toolbar_center_txt_margin_left">201.5dp</dimen>
+
+    <dimen name="card_width">144.0dp</dimen>
+    <dimen name="card_height">110.0dp</dimen>
+    <dimen name="card_img_height">81.0dp</dimen>
+    <dimen name="card_content_margin_h">17.5dp</dimen>
+    <dimen name="card_content_margin_top">41.0dp</dimen>
+    <dimen name="card_bottom_height">29.0dp</dimen>
+    <dimen name="margin_6">3.0dp</dimen>
+    <dimen name="margin_10">5.0dp</dimen>
+    <dimen name="margin_16">8.0dp</dimen>
+    <dimen name="margin_20">10.0dp</dimen>
+    <dimen name="margin_24">12.0dp</dimen>
+    <dimen name="margin_26">13.0dp</dimen>
+    <dimen name="margin_30">15.0dp</dimen>
+
+    <dimen name="list_height">25.0dp</dimen>
+    <dimen name="column_width_98">49.0dp</dimen>
+    <dimen name="column_width_168">84.0dp</dimen>
+    <dimen name="column_width_302">151.0dp</dimen>
+    <dimen name="card_height_small">81.0dp</dimen>
+    <dimen name="height_20">10.0dp</dimen>
+    <dimen name="height_24">12.0dp</dimen>
+    <dimen name="height_70">35.0dp</dimen>
+    <dimen name="train_progress_width">310.0dp</dimen>
+</resources>

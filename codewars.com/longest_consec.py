@@ -1,0 +1,155 @@
+
+# https://www.codewars.com/kata/56a5d994ac971f1ac500003e
+
+strarr = ['nnnuurrff',
+          'ppqqmmwwf',
+          'xxqqkkkoooccc',
+          'mmqqqfffnnnj',
+          'knnnxx',
+          'annnhfnnnff',
+          'yymmmtttshj',
+          'xxxtttyq',
+          'ynnllgffz',
+          'ccssseeexxxcccfff',
+          'lol',
+          'buggeewwwipppdd',
+          'ukkkxxiiihh',
+          'wwwsttwwwxxx',
+          'aaxxxjjmcccaaa',
+          'llppmmmaaxxaaadddttt',
+          'ffsmmmhhhhh',
+          'pvvvhgrruuu',
+          'pppxxxxxxzzz',
+          'pppuuufffccc',
+          'gggrrffjjjaaappp',
+          'yyycattvv',
+          'dddwwjjlp',
+          'nwwwkkmm',
+          'fffaaaaahbbb',
+          'mddvvvpppb',
+          'aaddbbaaa',
+          'khooiii',
+          'srrrpcc',
+          'cccddfffy',
+          'vvggzbbannniiigg',
+          'wwtn',
+          'xxxuus',
+          'nggooiwo',
+          'leyfknniiieee',
+          'nnnkkzznnntt',
+          'rrghhvnnttu',
+          'jjdddd',
+          'ommjcccc',
+          'vvbiiimuuu',
+          'aaammyyqqqlls',
+          'cczzyy',
+          'llffcccnnndddoyyye',
+          'kkkoooxxxg',
+          'gggsxwwwuuttjjjaa',
+          'jjjqqqahhhjjuu',
+          'vvvwwwtttur',
+          'qssvvvpp',
+          'nxnoozw',
+          'hsrbbb',
+          'qbqqiii',
+          'cccooovvvqqq',
+          'hhhdddvwwp',
+          'ssmmmsssvnff',
+          'pppxxsbaaddkkk',
+          'fregggifftt',
+          'nnttoigeeejjjjjj',
+          'wwoxxxiu',
+          'booorh',
+          'zzzyyyssswwqqlhhxxxt',
+          'iwwqyrrhh',
+          'fnkkkuuurrss',
+          'heeelwoeqq',
+          'yyjjfffvvv',
+          'lhhhmmfffhhhpnnn',
+          'guhhppppppqqq',
+          'wrllrrrj',
+          'kvqi',
+          'ooiiigllqqww',
+          'ssspooocccgggtsss',
+          'mmvvnnneeppp',
+          'xxxmmmnys',
+          'eeiihttoo',
+          'oooxxggwwmo',
+          'ssssslloo',
+          'ccnnnsssjjjrtggg',
+          'nnnrdffzz',
+          'xxxwdddvvfff',
+          'caaae',
+          'zlllj',
+          'oooggsyddd',
+          'wwwzziiffn',
+          'dddjjjaaaapppdddhhhttbbb',
+          'pmmwwwwwccckk',
+          'mstjjbbbnn',
+          'oookkqqllkkoo',
+          'lxxxzzzhhh',
+          'twwwoogg',
+          'eedyoov',
+          'bjjjookkkqqqaaa',
+          'rrrwwnnxxj',
+          'llccczzzv',
+          'rrzbbb',
+          'aaaiiccoooll',
+          'iiieeenqqzzfxx',
+          'qqqpppzzzb',
+          'soooxxxccch',
+          'ltttppeezzz',
+          'bbbiaaajjz',
+          'axxppbbuuud',
+          'gggdddllnnn',
+          'zoouuu',
+          'iiooaafffyyaaa',
+          'wooobbbjjlbb',
+          'ggeykkll',
+          'hhhfh',
+          'iiyyyv',
+          'kkkiiiww',
+          'iiiiiaaaqqvvoorrr',
+          'pjjjwwwkmmmgejjj',
+          'vvvhdpptttelll',
+          'ttettllppppkk',
+          'lllppeeerrrfffff',
+          'npzzollqqwwy',
+          'mssshtcmoo',
+          'aayyxvuudd',
+          'yyyqwwwcccmm',
+          'oooddbbbpp',
+          'vvvccaaawwttt',
+          'ppprryy',
+          'ooyvvgggrrr',
+          'vvpppkiijjyy',
+          'pppookxxnn',
+          'temmhh']
+k = 124
+
+
+#
+# def longest_consec(strarr,
+#                    k):
+#     if len(strarr) == 0 or k <= 0 or k > len(strarr):
+#         return ""
+#     s = strarr.index(sorted(strarr,
+#                             key=lambda s: len(s))[-1])
+#     s1 = ''.join(strarr[s - k + 1:s + 1])
+#     s2 = ''.join(strarr[s:s + k])
+#     return s1 if len(s1) > len(s2) else s2
+
+def longest_consec(strarr, k):
+    print(strarr, k)
+    ret = ''
+    if k in range(0, len(strarr)+1):
+        for s in range(0, len(strarr) - k + 1):
+            str = ''.join(strarr[s:s + k])
+            if len(str) > len(ret):
+                ret = str
+    return ret
+
+
+ans = 'nnnuurrffppqqmmwwfxxqqkkkooocccmmqqqfffnnnjknnnxxannnhfnnnffyymmmtttshjxxxtttyqynnllgffzccssseeexxxcccffflolbuggeewwwipppddukkkxxiiihhwwwsttwwwxxxaaxxxjjmcccaaallppmmmaaxxaaadddtttffsmmmhhhhhpvvvhgrruuupppxxxxxxzzzpppuuufffcccgggrrffjjjaaapppyyycattvvdddwwjjlpnwwwkkmmfffaaaaahbbbmddvvvpppbaaddbbaaakhooiiisrrrpcccccddfffyvvggzbbannniiiggwwtnxxxuusnggooiwoleyfknniiieeennnkkzznnnttrrghhvnnttujjddddommjccccvvbiiimuuuaaammyyqqqllscczzyyllffcccnnndddoyyyekkkoooxxxggggsxwwwuuttjjjaajjjqqqahhhjjuuvvvwwwttturqssvvvppnxnoozwhsrbbbqbqqiiicccooovvvqqqhhhdddvwwpssmmmsssvnffpppxxsbaaddkkkfregggiffttnnttoigeeejjjjjjwwoxxxiubooorhzzzyyyssswwqqlhhxxxtiwwqyrrhhfnkkkuuurrssheeelwoeqqyyjjfffvvvlhhhmmfffhhhpnnnguhhppppppqqqwrllrrrjkvqiooiiigllqqwwssspooocccgggtsssmmvvnnneepppxxxmmmnyseeiihttoooooxxggwwmosssssllooccnnnsssjjjrtgggnnnrdffzzxxxwdddvvfffcaaaezllljoooggsydddwwwzziiffndddjjjaaaapppdddhhhttbbbpmmwwwwwccckkmstjjbbbnnoookkqqllkkoolxxxzzzhhhtwwwooggeedyoovbjjjookkkqqqaaarrrwwnnxxjllccczzzvrrzbbbaaaiiccooolliiieeenqqzzfxxqqqpppzzzbsoooxxxccchltttppeezzzbbbiaaajjzaxxppbbuuudgggdddllnnnzoouuuiiooaafffyyaaawooobbbjjlbbggeykkllhhhfhiiyyyvkkkiiiwwiiiiiaaaqqvvoorrrpjjjwwwkmmmgejjjvvvhdpptttelllttettllppppkklllppeeerrrfffffnpzzollqqwwymssshtcmooaayyxvuuddyyyqwwwcccmmoooddbbbppvvvccaaawwtttppprryyooyvvgggrrrvvpppkiijjyypppookxxnntemmhh'
+
+print(longest_consec(strarr, k))
