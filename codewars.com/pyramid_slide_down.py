@@ -5,13 +5,14 @@ def longest_slide_down(pyramid):
     i = len(pyramid) - 2
     while i >= 0:
         for n in range(len(pyramid[i])):
-            pyramid[i][n]+=get_max(pyramid[i+1],n)
-        i-=1
+            pyramid[i][n] += get_max(pyramid[i + 1], n)
+        i -= 1
+    print(pyramid)
     return pyramid[0][0]
 
-def get_max(arr, i):
-    return max(arr[i], arr[i+1])
 
+def get_max(arr, i):
+    return max(arr[i], arr[i + 1])
 
 
 sam = [
@@ -33,4 +34,3 @@ sam = [
 ]
 if __name__ == '__main__':
     print(longest_slide_down(sam))
-    assert longest_slide_down(sam) == 1074
