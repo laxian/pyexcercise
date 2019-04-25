@@ -2,8 +2,18 @@ from functools import reduce
 import time
 
 
+def part(n):
+    lst = shrink(f(n))
+    print(lst)
+    return "Range: %d Average: %.2f Median: %.2f" % (max(lst)-min(lst),sum(lst)*1.0/len(lst),get_median(list(lst)))
+
 def shrink(lst):
     return set(map(lambda l: reduce(lambda x, y: x * y, l), lst))
+
+def get_median(data):
+    data.sort()
+    half = len(data) // 2
+    return (data[half] + data[~half]) / 2.0
 
 cache = {}
 def f(n):
@@ -20,7 +30,7 @@ def f(n):
             fr = f(r)
             cache[r] = fr
         ret.extend(accept(fr, [m]))
-        print(ret)
+        # print(ret)
     return ret
 
 
@@ -38,7 +48,8 @@ def dummy(lst, s):
 if __name__ == "__main__":
     tick = time.time()
     for i in range(1):
-        print(len(f(50)))
+        print(part(6))
+        # print(shrink(f(8)))
     print(time.time()-tick)
     # print(f(7))
     # print(dummy([[1,1],[1,2]], 3))
