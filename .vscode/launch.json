@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "/Users/etiantian/PycharmProjects/pyexcercise/codewars.com/getting_along_with_integer_partitions.py",
+            "program": "${file}",
             "console": "integratedTerminal"
         }
     ]
