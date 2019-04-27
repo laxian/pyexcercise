@@ -38,7 +38,6 @@ def candidate(puz, i, j):
 
 
 def palace(puz, coor):
-    ret = []
     i, j = coor
     matrix = [r[j*3:j*3+3] for r in puz[i*3:i*3+3]]
     return [i for item in matrix for i in item]
