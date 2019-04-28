@@ -3,57 +3,65 @@ from functools import reduce
 # https://www.codewars.com/kata/sudoku-solver/train/python
 
 
-def solver(puzzle):
-    puzzle_copy = [[i for i in row] for row in puzzle]
-    first = sudoku(puzzle_copy)
-    if first:
-        return first
+def solve(puzzle):
+    print(puzzle)
     stack = []
     index = 0
-    attempt = None
     should_back = False
-    pending = get_pending(puzzle_copy)
-    coor = sorted(pending.keys())
+    puzzle_copy = copy(puzzle)
     while True:
-        vpending = get_pending(puzzle)
-        vcoor = sorted(vpending.keys())
         deep = 0
         if should_back:
             should_back = False
-            index, deep = stack.pop()
+            index, deep, puzzle_copy = stack.pop()
             deep += 1
-        curr = vcoor[index - len(stack)]
-        i, j = curr
-        candidator = vpending[curr]
-        stack.append((index, deep))
+
+        old = copy(puzzle_copy)
+        stack.append([index, deep, old])
+        pending = get_pending(puzzle_copy)
+        coors = sorted(pending.keys())
+        coor = coors[0]
+        candidators = pending[coor]
         success = False
-        while deep < len(candidator):
-            try_value = candidator[deep]
-            puzzle[i][j] = try_value
+        while deep < len(candidators):
+            candidator = candidators[deep]
+            i, j = coor
+            puzzle_copy[i][j] = candidator
             try:
-                attempt = sudoku(puzzle)
-                if attempt:
+                attampt = sudoku(puzzle_copy)
+                # print(attampt)
+                if attampt and finish(attampt):
+                    puzzle_copy = attampt
                     success = True
                     break
                 else:
                     break
             except:
                 deep += 1
-                if deep == len(candidator):
+                if deep == len(candidators):
                     break
                 else:
-                    stack.pop()
-                    stack.append((index, deep))
+                    i, d, p = stack.pop()
+                    stack.append([i, deep, p])
         if success:
-            print('success!!! ')
-            print(attempt)
-            return attempt
-        if deep >= len(candidator):
-            puzzle[i][j] = 0
+            return puzzle_copy
+        if deep >= len(candidators):
             should_back = True
             stack.pop()
             continue
         index += 1
+
+
+copy = lambda puzzle: [[i for i in row] for row in puzzle]
+
+
+def reset_puzzle(puzzle, stack):
+    new_puzzle = [[i for i in row] for row in puzzle]
+    for s in stack:
+        index, coor, deep = s
+        i, j = coor
+        new_puzzle[i][j] = 1345678
+    return new_puzzle
 
 
 def get_pending(puzzle):
@@ -77,6 +85,10 @@ def sudoku(puzzle):
     return now if now != old else None
 
 
+def finish(puzzle):
+    return reduce(lambda a, b: a + b, map(lambda r: r.count(0), puzzle)) == 0
+
+
 def reduce_current(puzzle):
     copy = [[i for i in row] for row in puzzle]
     for i in range(9):
@@ -89,65 +101,69 @@ def reduce_current(puzzle):
                 # print('(%d, %d) -> %r'%(i,j,c))
                 if len(c) == 1:
                     copy[i][j] = c[0]
-    if puzzle != copy:
-        print('chanded')
+                elif len(c) == 0:
+                    raise Exception("no answer error")
+    # if puzzle != copy:
+        # print("chanded")
     return copy if puzzle != copy else puzzle
 
 
 def candidate(puz, i, j):
     rowi = puz[i]
     columnj = [r[j] for r in puz]
-    palaceij = palace(puz, [i//3, j//3])
-    exists = set(reduce(lambda x, y: x+y, [rowi, columnj, palaceij]))
+    palaceij = palace(puz, [i // 3, j // 3])
+    exists = set(reduce(lambda x, y: x + y, [rowi, columnj, palaceij]))
     return list(set(range(1, 10)) - exists)
 
 
 def palace(puz, coor):
     ret = []
     i, j = coor
-    matrix = [r[j*3:j*3+3] for r in puz[i*3:i*3+3]]
+    matrix = [r[j * 3 : j * 3 + 3] for r in puz[i * 3 : i * 3 + 3]]
     return [i for item in matrix for i in item]
 
 
-problem = [[9, 0, 0, 0, 8, 0, 0, 0, 1],
-           [0, 0, 0, 4, 0, 6, 0, 0, 0],
-           [0, 0, 5, 0, 7, 0, 3, 0, 0],
-           [0, 6, 0, 0, 0, 0, 0, 4, 0],
-           [4, 0, 1, 0, 6, 0, 5, 0, 8],
-           [0, 9, 0, 0, 0, 0, 0, 2, 0],
-           [0, 0, 7, 0, 3, 0, 2, 0, 0],
-           [0, 0, 0, 7, 0, 5, 0, 0, 0],
-           [1, 0, 0, 0, 4, 0, 0, 0, 7]]
+problem = [
+    [9, 0, 0, 0, 8, 0, 0, 0, 1],
+    [0, 0, 0, 4, 0, 6, 0, 0, 0],
+    [0, 0, 5, 0, 7, 0, 3, 0, 0],
+    [0, 6, 0, 0, 0, 0, 0, 4, 0],
+    [4, 0, 1, 0, 6, 0, 5, 0, 8],
+    [0, 9, 0, 0, 0, 0, 0, 2, 0],
+    [0, 0, 7, 0, 3, 0, 2, 0, 0],
+    [0, 0, 0, 7, 0, 5, 0, 0, 0],
+    [1, 0, 0, 0, 4, 0, 0, 0, 7],
+]
 
-pending = {(7, 8): [9, 3, 4, 6],
-           (4, 7): [9, 3, 7],
-           (3, 0): [8, 2, 3, 5, 7],
-           (2, 8): [9, 2, 4, 6],
-           (5, 4): [1, 5],
-           (0, 7): [5, 6, 7],
-           (1, 6): [8, 9, 7],
-           (2, 5): [1, 2, 9],
-           (8, 5): [8, 9, 2],
-           (0, 3): [2, 3, 5],
-           (5, 8): [3, 6],
-           (8, 2): [8, 9, 2, 3, 6],
-           (1, 2): [8, 2, 3],
-           (7, 4): [1, 2, 9],
-           (6, 7): [8, 1, 5, 6, 9],
-           (3, 3): [1, 2, 3, 5, 8, 9],
-           (0, 6): [4, 6, 7],
-           (8, 1): [8, 2, 3, 5],
-           (7, 6): [8, 1, 4, 6, 9],
-           (6, 3): [8, 1, 6, 9],
-           (5, 6): [1, 6, 7],
-           (7, 2): [2, 3, 4, 6, 8, 9],
-           (3, 6): [1, 9, 7],
-           (7, 7): [8, 1, 3, 6, 9],
-           (8, 6): [8, 9, 6],
-           (5, 3): [8, 1, 3, 5],
-           (4, 1): [2, 3, 7],
-           (1, 1): [
-    8, 1, 2, 3, 7],
+pending = {
+    (7, 8): [9, 3, 4, 6],
+    (4, 7): [9, 3, 7],
+    (3, 0): [8, 2, 3, 5, 7],
+    (2, 8): [9, 2, 4, 6],
+    (5, 4): [1, 5],
+    (0, 7): [5, 6, 7],
+    (1, 6): [8, 9, 7],
+    (2, 5): [1, 2, 9],
+    (8, 5): [8, 9, 2],
+    (0, 3): [2, 3, 5],
+    (5, 8): [3, 6],
+    (8, 2): [8, 9, 2, 3, 6],
+    (1, 2): [8, 2, 3],
+    (7, 4): [1, 2, 9],
+    (6, 7): [8, 1, 5, 6, 9],
+    (3, 3): [1, 2, 3, 5, 8, 9],
+    (0, 6): [4, 6, 7],
+    (8, 1): [8, 2, 3, 5],
+    (7, 6): [8, 1, 4, 6, 9],
+    (6, 3): [8, 1, 6, 9],
+    (5, 6): [1, 6, 7],
+    (7, 2): [2, 3, 4, 6, 8, 9],
+    (3, 6): [1, 9, 7],
+    (7, 7): [8, 1, 3, 6, 9],
+    (8, 6): [8, 9, 6],
+    (5, 3): [8, 1, 3, 5],
+    (4, 1): [2, 3, 7],
+    (1, 1): [8, 1, 2, 3, 7],
     (2, 7): [8, 9, 6],
     (3, 2): [8, 2, 3],
     (5, 0): [8, 3, 5, 7],
@@ -175,13 +191,78 @@ pending = {(7, 8): [9, 3, 4, 6],
     (1, 7): [8, 9, 5, 7],
     (0, 5): [2, 3],
     (3, 4): [1, 2, 5, 9],
-    (0, 2): [2, 3, 4, 6]}
+    (0, 2): [2, 3, 4, 6],
+}
+
+mid = [
+    [9, 2, 0, 0, 8, 3, 0, 0, 1],
+    [0, 0, 0, 4, 0, 6, 0, 0, 0],
+    [0, 0, 5, 0, 7, 0, 3, 0, 0],
+    [0, 6, 0, 0, 0, 0, 0, 4, 0],
+    [4, 0, 1, 0, 6, 0, 5, 0, 8],
+    [0, 9, 0, 0, 0, 0, 0, 2, 0],
+    [0, 0, 7, 0, 3, 0, 2, 0, 0],
+    [0, 0, 0, 7, 0, 5, 0, 0, 0],
+    [1, 0, 0, 0, 4, 0, 0, 0, 7],
+]
+
+solution = [
+    [9, 2, 6, 5, 8, 3, 4, 7, 1],
+    [7, 1, 3, 4, 2, 6, 9, 8, 5],
+    [8, 4, 5, 9, 7, 1, 3, 6, 2],
+    [3, 6, 2, 8, 5, 7, 1, 4, 9],
+    [4, 7, 1, 2, 6, 9, 5, 3, 8],
+    [5, 9, 8, 3, 1, 4, 7, 2, 6],
+    [6, 5, 7, 1, 3, 8, 2, 9, 4],
+    [2, 8, 4, 7, 9, 5, 6, 1, 3],
+    [1, 3, 9, 6, 4, 2, 8, 5, 7],
+]
+
+my = [
+    [9, 2, 6, 5, 8, 3, 4, 7, 1],
+    [7, 1, 3, 4, 2, 6, 9, 8, 5],
+    [8, 4, 5, 9, 7, 1, 3, 6, 2],
+    [3, 6, 2, 8, 5, 7, 1, 4, 9],
+    [4, 7, 1, 2, 6, 9, 5, 3, 8],
+    [5, 9, 8, 3, 1, 4, 7, 2, 6],
+    [6, 5, 7, 1, 3, 8, 2, 9, 4],
+    [2, 8, 4, 7, 9, 5, 6, 1, 3],
+    [1, 3, 9, 6, 4, 2, 8, 5, 7],
+]
+
+puzzle = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9],
+]
+
+my2 = [
+    [5, 3, 4, 6, 7, 8, 9, 1, 2],
+    [6, 7, 2, 1, 9, 5, 3, 4, 8],
+    [1, 9, 8, 3, 4, 2, 5, 6, 7],
+    [8, 5, 9, 7, 6, 1, 4, 2, 3],
+    [4, 2, 6, 8, 5, 3, 7, 9, 1],
+    [7, 1, 3, 9, 2, 4, 8, 5, 6],
+    [9, 6, 1, 5, 3, 7, 2, 8, 4],
+    [2, 8, 7, 4, 1, 9, 6, 3, 5],
+    [3, 4, 5, 2, 8, 6, 1, 7, 9],
+]
 
 
 def cnt(puz):
-    return reduce(lambda i, j: i+j, map(lambda r: r.count(0), puz))
+    return reduce(lambda i, j: i + j, map(lambda r: r.count(0), puz))
 
 
 if __name__ == "__main__":
-    solver(problem)
+    print(solve(puzzle))
+    print(solve(problem))
     # print(pending.keys())
+    # print(finish(solution))
+    # print(solution == my)
+
